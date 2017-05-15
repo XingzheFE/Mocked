@@ -1,0 +1,31 @@
+{
+  "name": "mocked-js",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "preferGlobal": true,
+  "bin": {
+    "mocked": "bin/mocked"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XingzheFE/Mocked.git"
+  },
+  "keywords": [
+    "mock",
+    "mockserver"
+  ],
+  "author": "xingzheFE",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/XingzheFE/Mocked/issues"
+  },
+  "homepage": "https://github.com/XingzheFE/Mocked#readme",
+  "devDependencies": {
+    "commander": "^2.9.0",
+    "rollup": "^0.41.6"
+  }
+}
