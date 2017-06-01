@@ -8,6 +8,8 @@
     "mocked": "bin/mocked"
   },
   "scripts": {
+    "dev": "yarn || npm install && npm run start",
+    "start": "node src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
