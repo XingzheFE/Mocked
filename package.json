@@ -17,6 +17,8 @@
     "url": "git+https://github.com/XingzheFE/Mocked.git"
   },
   "keywords": [
+    "mocked-js",
+    "mocked",
     "mock",
     "mockserver"
   ],
