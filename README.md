@@ -5,3 +5,4 @@ a light mock server for developer.
 - repeat
 - writable
 - RESTful API
+- specifying status code

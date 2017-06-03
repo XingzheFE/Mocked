@@ -1,8 +1,10 @@
 const loader = require('../lib/loader.js');
+const program = require('commander');
+const path = require('path');
+const mocked = require('../lib/server.js');
+const fs = require('fs');
+const log = require('./../lib/log.js');
 
-let program = require('commander');
-let path = require('path');
-let mocked = require('../lib/server.js');
 let customConf = loader('./mocked.config.js');
 let defaultConf = require("../lib/default.config.js");
 
@@ -19,9 +21,34 @@ program
 let serverPort = program.port;
 let routesPath = program.route ? path.resolve(process.cwd(), program.route) : '';
 let databasePath = program.data ? path.resolve(process.cwd(), program.data) : '';
+let database = databasePath ? require(databasePath) : {};
+let routes = routesPath ? require(routesPath) : {};
+let options = {
+    config: defaultConf,
+    db:database,
+    routes: routes
+};
 
 console.log(serverPort);
 console.log(routesPath);
 console.log(databasePath);
 
-mocked(defaultConf);
+// watch database file change
+fs.watch(databasePath, {
+    encoding: 'utf8'
+}, (e, f) => {
+    log.info('database change');
+    // TODO: updata options.db
+    options.db = require(databasePath);
+});
+// watch database file change
+fs.watch(routesPath, {
+    encoding: 'utf8'
+}, (e, f) => {
+    log.info('routes change');
+    // TODO: updata options.routes
+    options.routes = require(routesPath);
+});
+
+// launch mock server
+mocked(options);

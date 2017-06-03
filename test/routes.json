@@ -1,3 +1,5 @@
 {
-    "/api/user": "userList"
+    "/api/user": "userList",
+    "/api/foo": "userList",
+    "/api/bar": "userList"
 }
