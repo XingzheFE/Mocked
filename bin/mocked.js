@@ -39,7 +39,9 @@ fs.watch(databasePath, {
 }, (e, f) => {
     log.info('database change');
     // TODO: updata options.db
-    options.db = require(databasePath);
+    options.db = JSON.parse(fs.readFileSync(databasePath, {
+        encoding: 'utf8'
+    }));
 });
 // watch database file change
 fs.watch(routesPath, {
@@ -47,7 +49,9 @@ fs.watch(routesPath, {
 }, (e, f) => {
     log.info('routes change');
     // TODO: updata options.routes
-    options.routes = require(routesPath);
+    options.routes = JSON.parse(fs.readFileSync(routesPath, {
+        encoding: 'utf8'
+    }));
 });
 
 // launch mock server
