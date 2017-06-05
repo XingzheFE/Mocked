@@ -32,5 +32,8 @@
     "chalk": "^1.1.3",
     "commander": "^2.9.0",
     "rollup": "^0.41.6"
+  },
+  "dependencies": {
+    "ws": "^3.0.0"
   }
 }

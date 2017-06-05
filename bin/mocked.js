@@ -4,11 +4,9 @@ const path = require('path');
 const mocked = require('../lib/server.js');
 const fs = require('fs');
 const log = require('./../lib/log.js');
+const defaultConf = require("../lib/default.config.js");
 
-let customConf = loader('./mocked.config.js');
-let defaultConf = require("../lib/default.config.js");
 
-Object.assign(defaultConf, customConf);
 
 program
     .version(require('../package').version)
@@ -21,24 +19,30 @@ program
 let serverPort = program.port;
 let routesPath = program.route ? path.resolve(process.cwd(), program.route) : '';
 let databasePath = program.data ? path.resolve(process.cwd(), program.data) : '';
+let configPath = program.config ? path.resolve(process.cwd(), program.config) : path.resolve(process.cwd(), './mocked.config.js');
 let database = databasePath ? require(databasePath) : {};
 let routes = routesPath ? require(routesPath) : {};
+
+let customConf = loader(configPath);
+
+Object.assign(defaultConf, customConf);
+
 let options = {
     config: defaultConf,
     db:database,
     routes: routes
 };
 
-console.log(serverPort);
-console.log(routesPath);
-console.log(databasePath);
+// console.log(defaultConf);
+// console.log(customConf);
+// console.log(configPath);
+// console.log(databasePath);
 
 // watch database file change
 fs.watch(databasePath, {
     encoding: 'utf8'
 }, (e, f) => {
     log.info('database change');
-    // TODO: updata options.db
     options.db = JSON.parse(fs.readFileSync(databasePath, {
         encoding: 'utf8'
     }));
@@ -48,7 +52,6 @@ fs.watch(routesPath, {
     encoding: 'utf8'
 }, (e, f) => {
     log.info('routes change');
-    // TODO: updata options.routes
     options.routes = JSON.parse(fs.readFileSync(routesPath, {
         encoding: 'utf8'
     }));
