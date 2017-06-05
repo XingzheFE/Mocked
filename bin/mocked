@@ -6,8 +6,6 @@ const fs = require('fs');
 const log = require('./../lib/log.js');
 const defaultConf = require("../lib/default.config.js");
 
-
-
 program
     .version(require('../package').version)
     .option('-c, --config <n>', 'Mocked configuration')
@@ -22,7 +20,6 @@ let databasePath = program.data ? path.resolve(process.cwd(), program.data) : ''
 let configPath = program.config ? path.resolve(process.cwd(), program.config) : path.resolve(process.cwd(), './mocked.config.js');
 let database = databasePath ? require(databasePath) : {};
 let routes = routesPath ? require(routesPath) : {};
-
 let customConf = loader(configPath);
 
 Object.assign(defaultConf, customConf);
@@ -32,11 +29,6 @@ let options = {
     db:database,
     routes: routes
 };
-
-// console.log(defaultConf);
-// console.log(customConf);
-// console.log(configPath);
-// console.log(databasePath);
 
 // watch database file change
 fs.watch(databasePath, {
