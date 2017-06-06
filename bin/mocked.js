@@ -16,7 +16,7 @@ program
     .option('-d, --data <n>', 'Database json file path')
     .parse(process.argv);
 
-var serverPort = program.port;
+var serverPort = program.port || 0;
 var routesPath = program.route ? path.resolve(process.cwd(), program.route) : '';
 var databasePath = program.data ? path.resolve(process.cwd(), program.data) : '';
 var configPath = program.config ? path.resolve(process.cwd(), program.config) : path.resolve(process.cwd(), './mocked.config.js');
@@ -24,6 +24,7 @@ var database = databasePath ? require(databasePath) : {};
 var routes = routesPath ? require(routesPath) : {};
 var customConf = loader(configPath);
 
+customConf.port = serverPort;
 Object.assign(defaultConf, customConf);
 
 var options = {
