@@ -1,10 +1,10 @@
-const loader = require('../lib/loader.js');
-const program = require('commander');
-const path = require('path');
-const mocked = require('../lib/server.js');
-const fs = require('fs');
-const log = require('./../lib/log.js');
-const defaultConf = require("../lib/default.config.js");
+var fs = require('fs');
+var path = require('path');
+var program = require('commander');
+var log = require('../lib/log.js');
+var loader = require('../lib/loader.js');
+var mocked = require('../lib/server.js');
+var defaultConf = require("../lib/default.config.js");
 
 program
     .version(require('../package').version)
@@ -14,17 +14,17 @@ program
     .option('-d, --data <n>', 'Database json file path')
     .parse(process.argv);
 
-let serverPort = program.port;
-let routesPath = program.route ? path.resolve(process.cwd(), program.route) : '';
-let databasePath = program.data ? path.resolve(process.cwd(), program.data) : '';
-let configPath = program.config ? path.resolve(process.cwd(), program.config) : path.resolve(process.cwd(), './mocked.config.js');
-let database = databasePath ? require(databasePath) : {};
-let routes = routesPath ? require(routesPath) : {};
-let customConf = loader(configPath);
+var serverPort = program.port;
+var routesPath = program.route ? path.resolve(process.cwd(), program.route) : '';
+var databasePath = program.data ? path.resolve(process.cwd(), program.data) : '';
+var configPath = program.config ? path.resolve(process.cwd(), program.config) : path.resolve(process.cwd(), './mocked.config.js');
+var database = databasePath ? require(databasePath) : {};
+var routes = routesPath ? require(routesPath) : {};
+var customConf = loader(configPath);
 
 Object.assign(defaultConf, customConf);
 
-let options = {
+var options = {
     config: defaultConf,
     db:database,
     routes: routes
@@ -33,7 +33,7 @@ let options = {
 // watch database file change
 fs.watch(databasePath, {
     encoding: 'utf8'
-}, (e, f) => {
+}, function (e, f) {
     log.info('database change');
     options.db = JSON.parse(fs.readFileSync(databasePath, {
         encoding: 'utf8'
@@ -42,7 +42,7 @@ fs.watch(databasePath, {
 // watch database file change
 fs.watch(routesPath, {
     encoding: 'utf8'
-}, (e, f) => {
+}, function (e, f) {
     log.info('routes change');
     options.routes = JSON.parse(fs.readFileSync(routesPath, {
         encoding: 'utf8'
